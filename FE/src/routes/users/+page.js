@@ -1,10 +1,11 @@
-export const load = async ({ fetch }) => {
+import axios from "axios";
+export const load = async () => {
     try {
-        const response = await fetch("../api");
-        if (!response.ok) {
-            throw new Error("Failed to fetch users");
+        let users
+        const response = await axios("http://localhost:5000/api/user/get-all-users");
+        if (response.data) {
+            users = await response.data;
         }
-        const {users} = await response.json();
         return {
             users
         };

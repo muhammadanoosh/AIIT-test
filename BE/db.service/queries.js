@@ -12,12 +12,14 @@ module.exports = {
     );`,
 
     GET_ALL_USERS: `SELECT user_id, first_name, last_name, email, address, phone_number, date_time
-    FROM aiit_test.users;
+    FROM aiit_test.users
+    ORDER BY user_id DESC;
+    
     `,
 
     INSERT_INTO_USERS: `INSERT INTO aiit_test.users
-    (first_name, last_name, email, address, phone_number, date_time)
-    VALUES(?, ?, ?, ?, ?, ?);
+    (first_name, last_name, email, address, phone_number, date_time, attachment)
+    VALUES(?, ?, ?, ?, ?, ?, ?);
     `,
 
     DELETE_USER: `DELETE FROM aiit_test.users
@@ -26,6 +28,10 @@ module.exports = {
 
     GET_USER_BY_USER_ID: `SELECT user_id, first_name, last_name, email, address, phone_number, date_time
     FROM aiit_test.users where user_id=?;
+    `,
+
+    LOGIN_USER: `SELECT *
+    FROM aiit_test.users where email=? and password=?;
     `,
 
     UPDATE_USER: `UPDATE aiit_test.users

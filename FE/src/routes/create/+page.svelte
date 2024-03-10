@@ -1,4 +1,7 @@
 <script>
+    import axios from "axios";
+    import { navigate } from "svelte-routing";
+
     let email = "";
     let name = "";
     let surname = "";
@@ -7,32 +10,46 @@
     let date = "";
 
     const handleSubmit = async () => {
-        const requestBody = {
-            email,
-            name,
-            surname,
-            address,
-            phoneNumber,
-            date,
-        };
-        try {
-            const response = await fetch("../api", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ requestBody }),
-            });
-            // console.log(response);
-            if (response.status == 200) {
-                console.log("User Created");
-            } else {
-                console.log(response.message);
-                // console.error("Failed to create user:", response.statusText);
+        const fileInput = document.getElementById("customFile");
+        const file = fileInput.files[0];
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = async () => {
+            const formData = {
+                email,
+                name,
+                surname,
+                address,
+                phoneNumber,
+                date,
+                attachment: reader.result,
+            };
+            console.log(formData);
+            try {
+                const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjozMCwiaWF0IjoxNzEwMDY5OTIxLCJleHAiOjE3MTE3OTc5MjF9.h1gBooQ70huDXjKSIFT3rwGaSxttx5m2AoT0cYDJqhw";
+
+                const response = await axios.post(
+                    "http://localhost:5000/api/user/add-user",
+                    formData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    },
+                );
+                if (response) {
+                    window.location.href = "/users";
+                } else {
+                    console.log(response);
+                    // console.error("Failed to create user:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Failed to submit data:", error);
             }
-        } catch (error) {
-            console.error("Failed to submit data:", error);
-        }
+        };
     };
 
     let isEmailValid = true;
@@ -43,9 +60,11 @@
     }
 </script>
 
-<div class="container">
+<div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
+            <h1>Create User form</h1>
+
             <form
                 on:submit|preventDefault={handleSubmit}
                 class="border rounded p-4"
@@ -123,6 +142,17 @@
                         required
                     />
                 </div>
+                <div class="mb-3">
+                    <label for="inputDate" class="form-label"
+                        >Upload Attachment</label
+                    >
+                    <br />
+                    <input
+                        type="file"
+                        class="custom-file-input"
+                        id="customFile"
+                    />
+                </div>
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary">Create</button
                     >
@@ -131,4 +161,3 @@
         </div>
     </div>
 </div>
-
