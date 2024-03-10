@@ -15,7 +15,7 @@ module.exports = {
             if (exist.length > 0) {
                 return utils.generateToken(exist[0].user_id);
             } else {
-                throw new Error("Incorrect Password.");
+                return { messege: "Incorrect Password." };
             }
         } catch (err) {
             throw err;

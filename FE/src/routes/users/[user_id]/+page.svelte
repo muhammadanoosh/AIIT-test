@@ -3,7 +3,7 @@
 
     export let data;
     let isEmailValid = true;
-    // Initialize input fields with data.user values
+    
     let userId = data.user[0].user_id || "";
     let email = data.user[0].email || "";
     let name = data.user[0].first_name || "";
@@ -45,9 +45,10 @@
     }
 </script>
 
-<div class="container">
+<div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
+            <h1>Edit form</h1>
             <form
                 on:submit|preventDefault={handleSubmit}
                 class="border rounded p-4"

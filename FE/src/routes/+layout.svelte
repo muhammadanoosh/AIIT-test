@@ -1,14 +1,16 @@
 <script>
-    import { onMount, onDestroy } from 'svelte';
+    import { onMount, onDestroy } from "svelte";
 
-    const isTokenPresent = () => typeof localStorage !== 'undefined' && localStorage.getItem('token') !== null;
+    const isTokenPresent = () =>
+        typeof localStorage !== "undefined" &&
+        localStorage.getItem("token") !== null;
 
     let hasToken = false; // Initialize hasToken to false initially
 
     const logOut = () => {
-        localStorage.removeItem('token');
+        localStorage.removeItem("token");
         if (!import.meta.env.SSR) {
-            window.location.href = '/';
+            window.location.href = "/";
         }
     };
 
@@ -17,12 +19,12 @@
     };
 
     if (!import.meta.env.SSR) {
-        window.addEventListener('storage', storageChangeHandler);
+        window.addEventListener("storage", storageChangeHandler);
     }
 
     onDestroy(() => {
         if (!import.meta.env.SSR) {
-            window.removeEventListener('storage', storageChangeHandler);
+            window.removeEventListener("storage", storageChangeHandler);
         }
     });
 
@@ -53,14 +55,18 @@
                             href="/users">User list</a
                         >
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/create">Add user</a>
-                    </li>
+                    {#if hasToken}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/create">Add user</a>
+                        </li>
+                    {/if}
                 </ul>
             </div>
             <!-- Conditionally show/hide "Logout" button based on token presence -->
             {#if hasToken}
-                <button type="button" class="btn btn-danger" on:click={logOut}>Logout</button>
+                <button type="button" class="btn btn-danger" on:click={logOut}
+                    >Logout</button
+                >
             {/if}
         </div>
     </nav>

@@ -5,6 +5,8 @@
     let email = "admin@admin.com";
     let password;
 
+    
+
     const handleSubmit = async () => {
         const formData = {
             email,
@@ -16,12 +18,14 @@
                 "http://localhost:5000/api/user/log-in",
                 formData,
             );
-            if (response.data && response.data.token) {
-                const token = response.data.token;
+            console.log(response);
+            if (response.data.messege) {
+                alert(response.data.messege);
+                return;
+            } else {
+                const token = response.data;
                 localStorage.setItem("token", token);
                 window.location.href = "/create";
-            } else {
-                console.log(response.message);
             }
         } catch (error) {
             console.error("Failed to submit data:", error);
@@ -31,7 +35,7 @@
 
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6 ">
+        <div class="col-md-6">
             <h1>Login form</h1>
             <form
                 on:submit|preventDefault={handleSubmit}
@@ -58,7 +62,7 @@
                     <div class="col-sm-10">
                         <input
                             type="password"
-                            placeholder="Password is (123456789) exported db saved in BE folder"
+                            placeholder="Password (123456789) exported database is saved in the repo"
                             class="form-control"
                             id="inputPassword"
                             bind:value={password}

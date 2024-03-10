@@ -28,7 +28,7 @@
             };
             console.log(formData);
             try {
-                const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjozMCwiaWF0IjoxNzEwMDY5OTIxLCJleHAiOjE3MTE3OTc5MjF9.h1gBooQ70huDXjKSIFT3rwGaSxttx5m2AoT0cYDJqhw";
+                const token = localStorage.getItem("token");
 
                 const response = await axios.post(
                     "http://localhost:5000/api/user/add-user",
@@ -143,16 +143,17 @@
                     />
                 </div>
                 <div class="mb-3">
-                    <label for="inputDate" class="form-label"
-                        >Upload Attachment</label
-                    >
+                    <label for="inputDate" class="form-label">Upload Attachment</label>
                     <br />
                     <input
                         type="file"
                         class="custom-file-input"
                         id="customFile"
+                        accept=".pdf" 
                     />
+                    <small id="fileHelp" class="form-text text-muted">Please upload a PDF file.</small>
                 </div>
+                
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary">Create</button
                     >
